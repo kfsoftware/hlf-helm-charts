@@ -3,6 +3,16 @@ entries:
   hlf-operator:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-02-11T11:40:15.770114557Z"
+    description: A Helm chart for Kubernetes
+    digest: 57c64f7f820fe34082ac7fdf3089d2252382592389fd86f2b711255a1dbee11c
+    name: hlf-operator
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-operator-1.5.0-beta10/hlf-operator-1.5.0-beta10.tgz
+    version: 1.5.0-beta10
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-01-04T13:51:04.79325296Z"
     description: A Helm chart for Kubernetes
     digest: 6059f88428ce729c4bdce41bb46f3d9765540cd5c62642cd6f5735f5403a19fb
@@ -31,4 +41,15 @@ entries:
     urls:
     - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-operator-0.1.1/hlf-operator-0.1.1.tgz
     version: 0.1.1
-generated: "2022-01-04T13:51:04.79326426Z"
+  hlf-operator-ui:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-02-11T11:40:15.876094849Z"
+    description: A Helm chart for Kubernetes
+    digest: 8e865a4b1a1b75bdde697bb2d9027f78dc6770045ce8301b41af6c10aed19c22
+    name: hlf-operator-ui
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-operator-ui-1.5.0-beta10/hlf-operator-ui-1.5.0-beta10.tgz
+    version: 1.5.0-beta10
+generated: "2022-02-11T11:40:15.87622685Z"
