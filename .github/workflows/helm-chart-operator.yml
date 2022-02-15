@@ -1,9 +1,10 @@
-name: Release Charts
+name: Release HLF Operator Chart
 
 on:
   push:
     branches:
-      - main
+      - "*"
+  pull_request:
 
 jobs:
   release:

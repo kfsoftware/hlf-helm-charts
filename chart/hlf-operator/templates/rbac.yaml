@@ -475,6 +475,34 @@ rules:
       - patch
       - update
 
+  - apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricnetworkconfigs
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricnetworkconfigs/finalizers
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricnetworkconfigs/status
+    verbs:
+      - get
+      - patch
+      - update
 
   - apiGroups:
       - networking.istio.io
