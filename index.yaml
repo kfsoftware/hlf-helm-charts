@@ -3,6 +3,16 @@ entries:
   hlf-channel-manager:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-04-12T09:58:53.422549084Z"
+    description: A Helm chart for Kubernetes
+    digest: 698d3eb7a1d36fa5a252b8cb2e4241b41cb9032008f6ec61f52f56f466c5be82
+    name: hlf-channel-manager
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-channel-manager-0.1.1/hlf-channel-manager-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-04-12T09:46:55.582159042Z"
     description: A Helm chart for Kubernetes
     digest: 143f561d65fc75cb643952bd40412a4305c55a2746428eb0cc4b7f5bfc32d12a
@@ -163,4 +173,4 @@ entries:
     urls:
     - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-operator-ui-1.5.0-beta10/hlf-operator-ui-1.5.0-beta10.tgz
     version: 1.5.0-beta10
-generated: "2022-04-12T09:46:55.708642383Z"
+generated: "2022-04-12T09:58:53.547637863Z"
