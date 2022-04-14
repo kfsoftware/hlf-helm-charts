@@ -12,10 +12,16 @@ Default values can be found in [charts/hlf-operator/values.yaml](values.yaml)
 
 With default values:
 ```bash
-helm install hlf-operator --version=1.6.0 kfs/hlf-operator
+helm install hlf-operator --version=1.6.1 kfs/hlf-operator
 ```
 
 With custom values:
 ```bash
-helm install hlf-operator -f values.yaml --version=1.6.0 kfs/hlf-operator
+helm install hlf-operator -f values.yaml --version=1.6.1 kfs/hlf-operator
 ```
+
+## Upgrade hlf-operator
+```bash
+helm upgrade hlf-operator --version=1.6.1 kfs/hlf-operator
+```
+
