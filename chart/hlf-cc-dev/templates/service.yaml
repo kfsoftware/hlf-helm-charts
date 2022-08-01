@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "hlf-cc-dev.fullname" . }}
+  labels:
+    {{- include "hlf-cc-dev.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "hlf-cc-dev.selectorLabels" . | nindent 4 }}
