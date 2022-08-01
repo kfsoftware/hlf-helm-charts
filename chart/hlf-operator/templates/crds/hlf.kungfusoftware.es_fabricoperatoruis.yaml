@@ -6,16 +6,16 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: fabricchaincodes.hlf.kungfusoftware.es
+  name: fabricoperatoruis.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricChaincode
-    listKind: FabricChaincodeList
-    plural: fabricchaincodes
+    kind: FabricOperatorUI
+    listKind: FabricOperatorUIList
+    plural: fabricoperatoruis
     shortNames:
-    - fabricchaincode
-    singular: fabricchaincode
+    - fabricoperatorui
+    singular: fabricoperatorui
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -28,7 +28,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: FabricChaincode is the Schema for the hlfs API
+        description: FabricOperatorUI is the Schema for the hlfs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -43,7 +43,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: FabricChaincodeSpec defines the desired state of FabricChaincode
+            description: FabricOperatorUISpec defines the desired state of FabricOperatorUI
             properties:
               affinity:
                 description: Affinity is a group of affinity scheduling rules.
@@ -637,43 +637,8 @@ spec:
                         type: array
                     type: object
                 type: object
-              credentials:
-                nullable: true
-                properties:
-                  cahost:
-                    type: string
-                  caname:
-                    type: string
-                  caport:
-                    type: integer
-                  catls:
-                    properties:
-                      cacert:
-                        type: string
-                    required:
-                    - cacert
-                    type: object
-                  csr:
-                    properties:
-                      cn:
-                        type: string
-                      hosts:
-                        items:
-                          type: string
-                        type: array
-                    type: object
-                  enrollid:
-                    type: string
-                  enrollsecret:
-                    type: string
-                required:
-                - cahost
-                - caname
-                - caport
-                - catls
-                - enrollid
-                - enrollsecret
-                type: object
+              apiUrl:
+                type: string
               env:
                 items:
                   description: EnvVar represents an environment variable present in
@@ -796,9 +761,72 @@ spec:
                   type: object
                 nullable: true
                 type: array
-              packageId:
-                minLength: 1
-                type: string
+              ingress:
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  className:
+                    type: string
+                  enabled:
+                    default: true
+                    type: boolean
+                  hosts:
+                    items:
+                      properties:
+                        host:
+                          type: string
+                        paths:
+                          items:
+                            properties:
+                              path:
+                                default: /
+                                type: string
+                              pathType:
+                                default: Prefix
+                                type: string
+                            required:
+                            - path
+                            - pathType
+                            type: object
+                          type: array
+                      required:
+                      - host
+                      - paths
+                      type: object
+                    type: array
+                  tls:
+                    items:
+                      description: IngressTLS describes the transport layer security
+                        associated with an Ingress.
+                      properties:
+                        hosts:
+                          description: Hosts are a list of hosts included in the TLS
+                            certificate. The values in this list must match the name/s
+                            used in the tlsSecret. Defaults to the wildcard host setting
+                            for the loadbalancer controller fulfilling this Ingress,
+                            if left unspecified.
+                          items:
+                            type: string
+                          type: array
+                        secretName:
+                          description: SecretName is the name of the secret used to
+                            terminate TLS traffic on port 443. Field is left optional
+                            to allow TLS routing based on SNI hostname alone. If the
+                            SNI host in a listener conflicts with the "Host" header
+                            field used by an IngressRule, the SNI host is used for
+                            termination and value of the Host header is used for routing.
+                          type: string
+                      type: object
+                    type: array
+                required:
+                - annotations
+                - className
+                - enabled
+                - hosts
+                - tls
+                type: object
               replicas:
                 type: integer
               resources:
@@ -828,6 +856,8 @@ spec:
                       to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
                     type: object
                 type: object
+              tag:
+                type: string
               tolerations:
                 items:
                   description: The pod this Toleration is attached to tolerates any
@@ -869,13 +899,15 @@ spec:
                 nullable: true
                 type: array
             required:
+            - apiUrl
             - image
             - imagePullPolicy
-            - packageId
+            - ingress
             - replicas
+            - tag
             type: object
           status:
-            description: FabricChaincodeStatus defines the observed state of FabricChaincode
+            description: FabricOperatorUIStatus defines the observed state of FabricOperatorUI
             properties:
               conditions:
                 description: Conditions is a set of Condition instances.
@@ -920,7 +952,7 @@ spec:
               message:
                 type: string
               status:
-                description: Status of the FabricChaincode
+                description: Status of the FabricCA
                 type: string
             required:
             - conditions
