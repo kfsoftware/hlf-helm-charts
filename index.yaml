@@ -1,5 +1,27 @@
 apiVersion: v1
 entries:
+  getout:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-08-01T12:30:40.518907982Z"
+    description: A Helm chart for Kubernetes
+    digest: 1125c681efd92e3f300ad3102078b62102f3c25e4e72aa4ad4dd1aaae8a9fcbc
+    name: getout
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/getout-0.1.0/getout-0.1.0.tgz
+    version: 0.1.0
+  hlf-cc-dev:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-08-01T12:30:40.647394852Z"
+    description: A Helm chart for Kubernetes
+    digest: 0cd3b8ee482dce2c613e8629d21522c11cff32312f4b405554caf469a38c4cb3
+    name: hlf-cc-dev
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-cc-dev-0.1.0/hlf-cc-dev-0.1.0.tgz
+    version: 0.1.0
   hlf-channel-manager:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -21,7 +43,28 @@ entries:
     urls:
     - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-channel-manager-0.1.0/hlf-channel-manager-0.1.0.tgz
     version: 0.1.0
+  hlf-cp-manager:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-08-01T12:30:40.796500496Z"
+    description: A Helm chart for Kubernetes
+    digest: a06a842b1a0c54b987cb8bec94754e96800abc22e01ebd63437a376de3d7a62a
+    name: hlf-cp-manager
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-cp-manager-0.1.0/hlf-cp-manager-0.1.0.tgz
+    version: 0.1.0
   hlf-operator:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-08-01T12:30:40.916002807Z"
+    description: A Helm chart for Kubernetes
+    digest: 18bbe2d9a1046b6ae6f6bb7c7b712c68620092fd1d20dc6ccdf4faad50a90c83
+    name: hlf-operator
+    type: application
+    urls:
+    - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-operator-1.7.0-beta8/hlf-operator-1.7.0-beta8.tgz
+    version: 1.7.0-beta8
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2022-04-14T10:50:50.339265897Z"
@@ -183,4 +226,4 @@ entries:
     urls:
     - https://github.com/kfsoftware/hlf-helm-charts/releases/download/hlf-operator-ui-1.5.0-beta10/hlf-operator-ui-1.5.0-beta10.tgz
     version: 1.5.0-beta10
-generated: "2022-04-14T10:50:50.339403697Z"
+generated: "2022-08-01T12:30:40.916126781Z"
