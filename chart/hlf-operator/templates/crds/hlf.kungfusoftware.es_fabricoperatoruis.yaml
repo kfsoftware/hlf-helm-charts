@@ -6,16 +6,16 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: fabricorderernodes.hlf.kungfusoftware.es
+  name: fabricoperatoruis.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricOrdererNode
-    listKind: FabricOrdererNodeList
-    plural: fabricorderernodes
+    kind: FabricOperatorUI
+    listKind: FabricOperatorUIList
+    plural: fabricoperatoruis
     shortNames:
-    - orderernode
-    singular: orderernode
+    - fabricoperatorui
+    singular: fabricoperatorui
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -28,7 +28,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: FabricOrdererNode is the Schema for the hlfs API
+        description: FabricOperatorUI is the Schema for the hlfs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -43,24 +43,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: FabricOrdererNodeSpec defines the desired state of FabricOrdererNode
+            description: FabricOperatorUISpec defines the desired state of FabricOperatorUI
             properties:
-              adminIstio:
-                nullable: true
-                properties:
-                  hosts:
-                    items:
-                      type: string
-                    nullable: true
-                    type: array
-                  ingressGateway:
-                    type: string
-                  port:
-                    nullable: true
-                    type: integer
-                required:
-                - ingressGateway
-                type: object
               affinity:
                 description: Affinity is a group of affinity scheduling rules.
                 nullable: true
@@ -653,10 +637,22 @@ spec:
                         type: array
                     type: object
                 type: object
-              bootstrapMethod:
+              apiUrl:
                 type: string
-              channelParticipationEnabled:
-                type: boolean
+              auth:
+                nullable: true
+                properties:
+                  oidcAuthority:
+                    type: string
+                  oidcClientId:
+                    type: string
+                  oidcScope:
+                    type: string
+                required:
+                - oidcAuthority
+                - oidcClientId
+                - oidcScope
+                type: object
               env:
                 items:
                   description: EnvVar represents an environment variable present in
@@ -760,106 +756,12 @@ spec:
                   type: object
                 nullable: true
                 type: array
-              genesis:
-                type: string
-              grpcProxy:
-                nullable: true
-                properties:
-                  enabled:
-                    default: false
-                    type: boolean
-                  image:
-                    default: ghcr.io/hyperledger-labs/grpc-web
-                    type: string
-                  imagePullPolicy:
-                    default: IfNotPresent
-                    description: PullPolicy describes a policy for if/when to pull
-                      a container image
-                    type: string
-                  imagePullSecrets:
-                    items:
-                      description: LocalObjectReference contains enough information
-                        to let you locate the referenced object inside the same namespace.
-                      properties:
-                        name:
-                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                            TODO: Add other useful fields. apiVersion, kind, uid?'
-                          type: string
-                      type: object
-                    nullable: true
-                    type: array
-                  istio:
-                    properties:
-                      hosts:
-                        items:
-                          type: string
-                        nullable: true
-                        type: array
-                      ingressGateway:
-                        type: string
-                      port:
-                        nullable: true
-                        type: integer
-                    required:
-                    - ingressGateway
-                    type: object
-                  resources:
-                    description: ResourceRequirements describes the compute resource
-                      requirements.
-                    nullable: true
-                    properties:
-                      limits:
-                        additionalProperties:
-                          anyOf:
-                          - type: integer
-                          - type: string
-                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                          x-kubernetes-int-or-string: true
-                        description: 'Limits describes the maximum amount of compute
-                          resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
-                        type: object
-                      requests:
-                        additionalProperties:
-                          anyOf:
-                          - type: integer
-                          - type: string
-                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                          x-kubernetes-int-or-string: true
-                        description: 'Requests describes the minimum amount of compute
-                          resources required. If Requests is omitted for a container,
-                          it defaults to Limits if that is explicitly specified, otherwise
-                          to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
-                        type: object
-                    type: object
-                  tag:
-                    default: latest
-                    type: string
-                required:
-                - enabled
-                - image
-                - imagePullPolicy
-                - istio
-                - resources
-                - tag
-                type: object
-              hostAliases:
-                items:
-                  description: HostAlias holds the mapping between IP and hostnames
-                    that will be injected as an entry in the pod's hosts file.
-                  properties:
-                    hostnames:
-                      description: Hostnames for the above IP address.
-                      items:
-                        type: string
-                      type: array
-                    ip:
-                      description: IP address of the host file entry.
-                      type: string
-                  type: object
-                nullable: true
-                type: array
               image:
-                minLength: 1
+                type: string
+              imagePullPolicy:
+                default: IfNotPresent
+                description: PullPolicy describes a policy for if/when to pull a container
+                  image
                 type: string
               imagePullSecrets:
                 items:
@@ -873,120 +775,80 @@ spec:
                   type: object
                 nullable: true
                 type: array
-              istio:
-                nullable: true
+              ingress:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  className:
+                    type: string
+                  enabled:
+                    default: true
+                    type: boolean
                   hosts:
                     items:
-                      type: string
-                    nullable: true
-                    type: array
-                  ingressGateway:
-                    type: string
-                  port:
-                    nullable: true
-                    type: integer
-                required:
-                - ingressGateway
-                type: object
-              mspID:
-                minLength: 3
-                type: string
-              nodeSelector:
-                description: A node selector represents the union of the results of
-                  one or more label queries over a set of nodes; that is, it represents
-                  the OR of the selectors represented by the node selector terms.
-                nullable: true
-                properties:
-                  nodeSelectorTerms:
-                    description: Required. A list of node selector terms. The terms
-                      are ORed.
-                    items:
-                      description: A null or empty node selector term matches no objects.
-                        The requirements of them are ANDed. The TopologySelectorTerm
-                        type implements a subset of the NodeSelectorTerm.
                       properties:
-                        matchExpressions:
-                          description: A list of node selector requirements by node's
-                            labels.
+                        host:
+                          type: string
+                        paths:
                           items:
-                            description: A node selector requirement is a selector
-                              that contains values, a key, and an operator that relates
-                              the key and values.
                             properties:
-                              key:
-                                description: The label key that the selector applies
-                                  to.
+                              path:
+                                default: /
                                 type: string
-                              operator:
-                                description: Represents a key's relationship to a
-                                  set of values. Valid operators are In, NotIn, Exists,
-                                  DoesNotExist. Gt, and Lt.
+                              pathType:
+                                default: Prefix
                                 type: string
-                              values:
-                                description: An array of string values. If the operator
-                                  is In or NotIn, the values array must be non-empty.
-                                  If the operator is Exists or DoesNotExist, the values
-                                  array must be empty. If the operator is Gt or Lt,
-                                  the values array must have a single element, which
-                                  will be interpreted as an integer. This array is
-                                  replaced during a strategic merge patch.
-                                items:
-                                  type: string
-                                type: array
                             required:
-                            - key
-                            - operator
+                            - path
+                            - pathType
                             type: object
                           type: array
-                        matchFields:
-                          description: A list of node selector requirements by node's
-                            fields.
+                      required:
+                      - host
+                      - paths
+                      type: object
+                    type: array
+                  tls:
+                    items:
+                      description: IngressTLS describes the transport layer security
+                        associated with an Ingress.
+                      properties:
+                        hosts:
+                          description: Hosts are a list of hosts included in the TLS
+                            certificate. The values in this list must match the name/s
+                            used in the tlsSecret. Defaults to the wildcard host setting
+                            for the loadbalancer controller fulfilling this Ingress,
+                            if left unspecified.
                           items:
-                            description: A node selector requirement is a selector
-                              that contains values, a key, and an operator that relates
-                              the key and values.
-                            properties:
-                              key:
-                                description: The label key that the selector applies
-                                  to.
-                                type: string
-                              operator:
-                                description: Represents a key's relationship to a
-                                  set of values. Valid operators are In, NotIn, Exists,
-                                  DoesNotExist. Gt, and Lt.
-                                type: string
-                              values:
-                                description: An array of string values. If the operator
-                                  is In or NotIn, the values array must be non-empty.
-                                  If the operator is Exists or DoesNotExist, the values
-                                  array must be empty. If the operator is Gt or Lt,
-                                  the values array must have a single element, which
-                                  will be interpreted as an integer. This array is
-                                  replaced during a strategic merge patch.
-                                items:
-                                  type: string
-                                type: array
-                            required:
-                            - key
-                            - operator
-                            type: object
+                            type: string
                           type: array
+                        secretName:
+                          description: SecretName is the name of the secret used to
+                            terminate TLS traffic on port 443. Field is left optional
+                            to allow TLS routing based on SNI hostname alone. If the
+                            SNI host in a listener conflicts with the "Host" header
+                            field used by an IngressRule, the SNI host is used for
+                            termination and value of the Host header is used for routing.
+                          type: string
                       type: object
                     type: array
                 required:
-                - nodeSelectorTerms
+                - annotations
+                - className
+                - enabled
+                - hosts
+                - tls
                 type: object
-              pullPolicy:
-                default: IfNotPresent
-                description: PullPolicy describes a policy for if/when to pull a container
-                  image
+              logoUrl:
+                default: ""
                 type: string
               replicas:
-                default: 1
                 type: integer
               resources:
                 description: ResourceRequirements describes the compute resource requirements.
+                nullable: true
                 properties:
                   limits:
                     additionalProperties:
@@ -1011,140 +873,7 @@ spec:
                       to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
                     type: object
                 type: object
-              secret:
-                nullable: true
-                properties:
-                  enrollment:
-                    properties:
-                      component:
-                        properties:
-                          cahost:
-                            minLength: 1
-                            type: string
-                          caname:
-                            minLength: 1
-                            type: string
-                          caport:
-                            type: integer
-                          catls:
-                            properties:
-                              cacert:
-                                type: string
-                            required:
-                            - cacert
-                            type: object
-                          enrollid:
-                            minLength: 1
-                            type: string
-                          enrollsecret:
-                            minLength: 1
-                            type: string
-                        required:
-                        - cahost
-                        - caname
-                        - caport
-                        - catls
-                        - enrollid
-                        - enrollsecret
-                        type: object
-                      tls:
-                        properties:
-                          cahost:
-                            type: string
-                          caname:
-                            type: string
-                          caport:
-                            type: integer
-                          catls:
-                            properties:
-                              cacert:
-                                type: string
-                            required:
-                            - cacert
-                            type: object
-                          csr:
-                            properties:
-                              cn:
-                                type: string
-                              hosts:
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          enrollid:
-                            type: string
-                          enrollsecret:
-                            type: string
-                        required:
-                        - cahost
-                        - caname
-                        - caport
-                        - catls
-                        - enrollid
-                        - enrollsecret
-                        type: object
-                    required:
-                    - component
-                    - tls
-                    type: object
-                required:
-                - enrollment
-                type: object
-              service:
-                properties:
-                  nodePortOperations:
-                    type: integer
-                  nodePortRequest:
-                    type: integer
-                  type:
-                    description: Service Type string describes ingress methods for
-                      a service
-                    type: string
-                required:
-                - type
-                type: object
-              serviceMonitor:
-                nullable: true
-                properties:
-                  enabled:
-                    default: false
-                    type: boolean
-                  interval:
-                    default: 10s
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  sampleLimit:
-                    default: 0
-                    type: integer
-                  scrapeTimeout:
-                    default: 10s
-                    type: string
-                required:
-                - enabled
-                - interval
-                - sampleLimit
-                - scrapeTimeout
-                type: object
-              storage:
-                properties:
-                  accessMode:
-                    default: ReadWriteOnce
-                    type: string
-                  size:
-                    default: 5Gi
-                    type: string
-                  storageClass:
-                    default: ""
-                    type: string
-                required:
-                - accessMode
-                - size
-                type: object
               tag:
-                minLength: 1
                 type: string
               tolerations:
                 items:
@@ -1186,27 +915,18 @@ spec:
                   type: object
                 nullable: true
                 type: array
-              updateCertificateTime:
-                format: date-time
-                nullable: true
-                type: string
             required:
-            - bootstrapMethod
-            - channelParticipationEnabled
-            - genesis
+            - apiUrl
             - image
-            - mspID
+            - imagePullPolicy
+            - ingress
+            - logoUrl
             - replicas
-            - resources
-            - service
-            - storage
             - tag
             type: object
           status:
-            description: FabricOrdererNodeStatus defines the observed state of FabricOrdererNode
+            description: FabricOperatorUIStatus defines the observed state of FabricOperatorUI
             properties:
-              adminPort:
-                type: integer
               conditions:
                 description: Conditions is a set of Condition instances.
                 items:
@@ -1247,30 +967,14 @@ spec:
                   - type
                   type: object
                 type: array
-              lastCertificateUpdate:
-                format: date-time
-                nullable: true
-                type: string
               message:
                 type: string
-              operationsPort:
-                type: integer
-              port:
-                type: integer
-              signCaCert:
-                type: string
-              signCert:
-                type: string
               status:
-                type: string
-              tlsAdminCert:
-                type: string
-              tlsCaCert:
-                type: string
-              tlsCert:
+                description: Status of the FabricCA
                 type: string
             required:
             - conditions
+            - message
             - status
             type: object
         type: object
