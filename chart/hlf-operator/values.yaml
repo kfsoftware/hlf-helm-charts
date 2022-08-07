@@ -6,9 +6,9 @@ replicaCount: 1
 
 image:
   repository: quay.io/kfsoftware/hlf-operator
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.7.0-beta12"
+  tag: "v1.7.0"
 
 imagePullSecrets: []
 nameOverride: ""
