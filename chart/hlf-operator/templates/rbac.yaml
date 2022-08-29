@@ -666,6 +666,64 @@ rules:
       - update
       - watch
     apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricfollowerchannels
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricfollowerchannels/finalizers
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricfollowerchannels/status
+
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricmainchannels
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricmainchannels/finalizers
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricmainchannels/status
+
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
       - networking.istio.io
     resources:
       - gateways
@@ -693,6 +751,18 @@ rules:
       - monitoring.coreos.com
     resources:
       - servicemonitors
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+     - coordination.k8s.io
+    resources:
+      - leases
   - verbs:
       - create
       - delete
