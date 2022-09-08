@@ -6,17 +6,17 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: fabricexplorers.hlf.kungfusoftware.es
+  name: fabricfollowerchannels.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricExplorer
-    listKind: FabricExplorerList
-    plural: fabricexplorers
+    kind: FabricFollowerChannel
+    listKind: FabricFollowerChannelList
+    plural: fabricfollowerchannels
     shortNames:
-    - explorer
-    singular: explorer
-  scope: Namespaced
+    - fabricfollowerchannel
+    singular: fabricfollowerchannel
+  scope: Cluster
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.status
@@ -28,7 +28,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: FabricExplorer is the Schema for the hlfs API
+        description: FabricFollowerChannel is the Schema for the hlfs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -43,39 +43,73 @@ spec:
           metadata:
             type: object
           spec:
-            description: FabricExplorerSpec defines the desired state of FabricExplorer
+            description: FabricFollowerChannelSpec defines the desired state of FabricFollowerChannel
             properties:
-              resources:
-                description: ResourceRequirements describes the compute resource requirements.
+              anchorPeers:
+                items:
+                  properties:
+                    host:
+                      type: string
+                    port:
+                      type: integer
+                  required:
+                  - host
+                  - port
+                  type: object
+                type: array
+              hlfIdentity:
                 properties:
-                  limits:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                      x-kubernetes-int-or-string: true
-                    description: 'Limits describes the maximum amount of compute resources
-                      allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
-                    type: object
-                  requests:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                      x-kubernetes-int-or-string: true
-                    description: 'Requests describes the minimum amount of compute
-                      resources required. If Requests is omitted for a container,
-                      it defaults to Limits if that is explicitly specified, otherwise
-                      to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
-                    type: object
+                  secretKey:
+                    type: string
+                  secretName:
+                    type: string
+                  secretNamespace:
+                    default: default
+                    type: string
+                required:
+                - secretKey
+                - secretName
+                - secretNamespace
                 type: object
+              mspId:
+                type: string
+              name:
+                type: string
+              orderers:
+                items:
+                  properties:
+                    certificate:
+                      type: string
+                    url:
+                      type: string
+                  required:
+                  - certificate
+                  - url
+                  type: object
+                type: array
+              peersToJoin:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                  required:
+                  - name
+                  - namespace
+                  type: object
+                type: array
             required:
-            - resources
+            - anchorPeers
+            - hlfIdentity
+            - mspId
+            - name
+            - orderers
+            - peersToJoin
             type: object
           status:
-            description: FabricExplorerStatus defines the observed state of FabricExplorer
+            description: FabricFollowerChannelStatus defines the observed state of
+              FabricFollowerChannel
             properties:
               conditions:
                 description: Conditions is a set of Condition instances.
