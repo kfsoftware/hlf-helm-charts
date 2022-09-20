@@ -8,7 +8,7 @@ image:
   repository: quay.io/kfsoftware/hlf-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.7.0"
+  tag: "v1.8.0-beta9"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -28,7 +28,8 @@ podAnnotations: {}
 podSecurityContext: {}
 # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -43,14 +44,18 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 500m
-    memory: 256Mi
+    memory: 512Mi
   requests:
     cpu: 100m
     memory: 128Mi
 
 nodeSelector: {}
 
-tolerations: []
+tolerations:
+  - key: kubernetes.azure.com/scalesetpriority
+    operator: Equal
+    value: spot
+    effect: NoSchedule
 
 affinity: {}
 
