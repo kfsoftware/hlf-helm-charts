@@ -643,6 +643,42 @@ spec:
                 resources:
                   description: ResourceRequirements describes the compute resource requirements.
                   nullable: true
+                  enrollid:
+                    type: string
+                  enrollsecret:
+                    type: string
+                  external:
+                    nullable: true
+                    properties:
+                      certificateKey:
+                        type: string
+                      privateKeyKey:
+                        type: string
+                      rootCertificateKey:
+                        type: string
+                      secretName:
+                        type: string
+                      secretNamespace:
+                        type: string
+                    required:
+                    - certificateKey
+                    - privateKeyKey
+                    - rootCertificateKey
+                    - secretName
+                    - secretNamespace
+                    type: object
+                required:
+                - cahost
+                - caname
+                - caport
+                - catls
+                - enrollid
+                - enrollsecret
+                type: object
+              env:
+                items:
+                  description: EnvVar represents an environment variable present in
+                    a Container.
                   properties:
                     limits:
                       additionalProperties:

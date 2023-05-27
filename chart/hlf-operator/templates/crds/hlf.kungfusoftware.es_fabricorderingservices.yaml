@@ -41,6 +41,154 @@ spec:
               description: FabricOrderingServiceSpec defines the desired state of FabricOrderingService
               properties:
                 enrollment:
+  - additionalPrinterColumns:
+    - jsonPath: .status.status
+      name: State
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: FabricOrderingService is the Schema for the hlfs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FabricOrderingServiceSpec defines the desired state of FabricOrderingService
+            properties:
+              enrollment:
+                properties:
+                  component:
+                    properties:
+                      cahost:
+                        minLength: 1
+                        type: string
+                      caname:
+                        minLength: 1
+                        type: string
+                      caport:
+                        type: integer
+                      catls:
+                        properties:
+                          cacert:
+                            type: string
+                        required:
+                        - cacert
+                        type: object
+                      enrollid:
+                        minLength: 1
+                        type: string
+                      enrollsecret:
+                        minLength: 1
+                        type: string
+                      external:
+                        nullable: true
+                        properties:
+                          certificateKey:
+                            type: string
+                          privateKeyKey:
+                            type: string
+                          rootCertificateKey:
+                            type: string
+                          secretName:
+                            type: string
+                          secretNamespace:
+                            type: string
+                        required:
+                        - certificateKey
+                        - privateKeyKey
+                        - rootCertificateKey
+                        - secretName
+                        - secretNamespace
+                        type: object
+                    required:
+                    - cahost
+                    - caname
+                    - caport
+                    - catls
+                    - enrollid
+                    - enrollsecret
+                    type: object
+                  tls:
+                    properties:
+                      cahost:
+                        type: string
+                      caname:
+                        type: string
+                      caport:
+                        type: integer
+                      catls:
+                        properties:
+                          cacert:
+                            type: string
+                        required:
+                        - cacert
+                        type: object
+                      csr:
+                        properties:
+                          cn:
+                            type: string
+                          hosts:
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      enrollid:
+                        type: string
+                      enrollsecret:
+                        type: string
+                      external:
+                        nullable: true
+                        properties:
+                          certificateKey:
+                            type: string
+                          privateKeyKey:
+                            type: string
+                          rootCertificateKey:
+                            type: string
+                          secretName:
+                            type: string
+                          secretNamespace:
+                            type: string
+                        required:
+                        - certificateKey
+                        - privateKeyKey
+                        - rootCertificateKey
+                        - secretName
+                        - secretNamespace
+                        type: object
+                    required:
+                    - cahost
+                    - caname
+                    - caport
+                    - catls
+                    - enrollid
+                    - enrollsecret
+                    type: object
+                required:
+                - component
+                - tls
+                type: object
+              image:
+                minLength: 1
+                type: string
+              mspID:
+                minLength: 3
+                type: string
+              nodes:
+                items:
                   properties:
                     component:
                       properties:

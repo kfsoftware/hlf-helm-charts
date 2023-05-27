@@ -629,6 +629,54 @@ spec:
                                 x-kubernetes-int-or-string: true
                               resource:
                                 description: "Required: resource to select"
+                            required:
+                            - cacert
+                            type: object
+                          enrollid:
+                            minLength: 1
+                            type: string
+                          enrollsecret:
+                            minLength: 1
+                            type: string
+                          external:
+                            nullable: true
+                            properties:
+                              certificateKey:
+                                type: string
+                              privateKeyKey:
+                                type: string
+                              rootCertificateKey:
+                                type: string
+                              secretName:
+                                type: string
+                              secretNamespace:
+                                type: string
+                            required:
+                            - certificateKey
+                            - privateKeyKey
+                            - rootCertificateKey
+                            - secretName
+                            - secretNamespace
+                            type: object
+                        required:
+                        - cahost
+                        - caname
+                        - caport
+                        - catls
+                        - enrollid
+                        - enrollsecret
+                        type: object
+                      tls:
+                        properties:
+                          cahost:
+                            type: string
+                          caname:
+                            type: string
+                          caport:
+                            type: integer
+                          catls:
+                            properties:
+                              cacert:
                                 type: string
                             required:
                               - resource
@@ -648,6 +696,37 @@ spec:
                             required:
                               - key
                             type: object
+                          enrollid:
+                            type: string
+                          enrollsecret:
+                            type: string
+                          external:
+                            nullable: true
+                            properties:
+                              certificateKey:
+                                type: string
+                              privateKeyKey:
+                                type: string
+                              rootCertificateKey:
+                                type: string
+                              secretName:
+                                type: string
+                              secretNamespace:
+                                type: string
+                            required:
+                            - certificateKey
+                            - privateKeyKey
+                            - rootCertificateKey
+                            - secretName
+                            - secretNamespace
+                            type: object
+                        required:
+                        - cahost
+                        - caname
+                        - caport
+                        - catls
+                        - enrollid
+                        - enrollsecret
                         type: object
                     required:
                       - name

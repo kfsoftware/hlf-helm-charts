@@ -504,6 +504,49 @@ spec:
                   type: object
                 auth:
                   nullable: true
+                              type: array
+                            topologyKey:
+                              description: This pod should be co-located (affinity)
+                                or not co-located (anti-affinity) with the pods matching
+                                the labelSelector in the specified namespaces, where
+                                co-located is defined as running on a node whose value
+                                of the label with key topologyKey matches that of
+                                any node on which any of the selected pods is running.
+                                Empty topologyKey is not allowed.
+                              type: string
+                          required:
+                          - topologyKey
+                          type: object
+                        type: array
+                    type: object
+                type: object
+              auth:
+                nullable: true
+                properties:
+                  oidcAuthority:
+                    default: ""
+                    type: string
+                  oidcClientId:
+                    default: ""
+                    type: string
+                  oidcIssuer:
+                    type: string
+                  oidcJWKS:
+                    type: string
+                  oidcScope:
+                    default: ""
+                    type: string
+                required:
+                - oidcAuthority
+                - oidcClientId
+                - oidcIssuer
+                - oidcJWKS
+                - oidcScope
+                type: object
+              env:
+                items:
+                  description: EnvVar represents an environment variable present in
+                    a Container.
                   properties:
                     oidcIssuer:
                       type: string
@@ -627,6 +670,50 @@ spec:
                       name:
                         description: "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?"
                         type: string
+                    nullable: true
+                    type: array
+                  ingressGateway:
+                    type: string
+                  port:
+                    nullable: true
+                    type: integer
+                required:
+                - ingressGateway
+                type: object
+              logoUrl:
+                default: ""
+                type: string
+              podLabels:
+                additionalProperties:
+                  type: string
+                type: object
+              replicas:
+                type: integer
+              resources:
+                description: ResourceRequirements describes the compute resource requirements.
+                nullable: true
+                properties:
+                  limits:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    description: 'Limits describes the maximum amount of compute resources
+                      allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                    type: object
+                  requests:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    description: 'Requests describes the minimum amount of compute
+                      resources required. If Requests is omitted for a container,
+                      it defaults to Limits if that is explicitly specified, otherwise
+                      to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                     type: object
                   nullable: true
                   type: array
@@ -687,6 +774,35 @@ spec:
                     - tls
                   type: object
                 istio:
+                nullable: true
+                type: array
+            required:
+            - hlfConfig
+            - image
+            - imagePullPolicy
+            - ingress
+            - istio
+            - logoUrl
+            - podLabels
+            - replicas
+            - tag
+            type: object
+          status:
+            description: FabricOperatorAPIStatus defines the observed state of FabricOperatorAPI
+            properties:
+              conditions:
+                description: Conditions is a set of Condition instances.
+                items:
+                  description: "Condition represents an observation of an object's
+                    state. Conditions are an extension mechanism intended to be used
+                    when the details of an observation are not a priori known or would
+                    not apply to all instances of a given Kind. \n Conditions should
+                    be added to explicitly convey properties that users and components
+                    care about rather than requiring those properties to be inferred
+                    from other observations. Once defined, the meaning of a Condition
+                    can not be changed arbitrarily - it becomes part of the API, and
+                    has the same backwards- and forwards-compatibility concerns of
+                    any other part of the API."
                   properties:
                     hosts:
                       items:
