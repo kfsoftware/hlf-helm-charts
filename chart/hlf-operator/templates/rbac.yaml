@@ -31,6 +31,30 @@ rules:
     verbs:
       - create
       - patch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gatewayclasses
+      - gateways
+      - httproutes
+      - tcproutes
+      - tlsroutes
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gatewayclasses/status
+      - gateways/status
+      - httproutes/status
+      - tcproutes/status
+      - tlsroutes/status
+    verbs:
+      - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -715,6 +739,37 @@ rules:
     resources:
       - fabricmainchannels/status
 
+
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricidentities
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricidentities/finalizers
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricidentities/status
+
+
   - verbs:
       - create
       - delete
@@ -838,6 +893,30 @@ rules:
       - ''
     resources:
       - events
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gatewayclasses
+      - gateways
+      - httproutes
+      - tcproutes
+      - tlsroutes
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gatewayclasses/status
+      - gateways/status
+      - httproutes/status
+      - tcproutes/status
+      - tlsroutes/status
+    verbs:
+      - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
