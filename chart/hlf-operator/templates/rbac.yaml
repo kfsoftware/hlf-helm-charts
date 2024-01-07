@@ -692,6 +692,13 @@ rules:
     resources:
       - fabricchaincodes/status
   - verbs:
+      - get
+      - list
+    apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+  - verbs:
       - create
       - delete
       - get
