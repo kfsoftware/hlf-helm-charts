@@ -32,6 +32,16 @@ rules:
       - create
       - patch
   - apiGroups:
+      - traefik.io
+    resources:
+      - ingressroutetcps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+  - apiGroups:
       - gateway.networking.k8s.io
     resources:
       - gatewayclasses
@@ -681,6 +691,34 @@ rules:
       - hlf.kungfusoftware.es
     resources:
       - fabricchaincodes/status
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricchaincodetemplates
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricchaincodetemplates/finalizers
+  - verbs:
+      - get
+      - patch
+      - update
+    apiGroups:
+      - hlf.kungfusoftware.es
+    resources:
+      - fabricchaincodetemplates/status
   - verbs:
       - create
       - delete
