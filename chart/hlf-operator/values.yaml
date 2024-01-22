@@ -8,7 +8,7 @@ image:
   repository: quay.io/kfsoftware/hlf-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.10.0-beta3"
+  tag: "v1.10.0-beta5"
 
 certificates:
   renewal:
@@ -19,7 +19,7 @@ certificates:
       enabled: false
       delta: "720h"
     identity:
-      enabled: false
+      enabled: true
       delta: "720h"
 
 imagePullSecrets: []
