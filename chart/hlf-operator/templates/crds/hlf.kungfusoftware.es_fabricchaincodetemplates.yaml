@@ -6,16 +6,16 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: fabricchaincodes.hlf.kungfusoftware.es
+  name: fabricchaincodetemplates.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricChaincode
-    listKind: FabricChaincodeList
-    plural: fabricchaincodes
+    kind: FabricChaincodeTemplate
+    listKind: FabricChaincodeTemplateList
+    plural: fabricchaincodetemplates
     shortNames:
-    - fabricchaincode
-    singular: fabricchaincode
+    - fabricchaincodetemplate
+    singular: fabricchaincodetemplate
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -28,7 +28,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: FabricChaincode is the Schema for the hlfs API
+        description: FabricChaincodeTemplate is the Schema for the hlfs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -43,7 +43,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: FabricChaincodeSpec defines the desired state of FabricChaincode
+            description: FabricChaincodeTemplateSpec defines the desired state of
+              FabricChaincodeTemplate
             properties:
               affinity:
                 description: Affinity is a group of affinity scheduling rules.
@@ -1059,8 +1060,6 @@ spec:
                   type: object
                 nullable: true
                 type: array
-              image:
-                type: string
               imagePullPolicy:
                 default: IfNotPresent
                 description: PullPolicy describes a policy for if/when to pull a container
@@ -1084,9 +1083,6 @@ spec:
                 nullable: true
                 type: object
               mspID:
-                type: string
-              packageId:
-                minLength: 1
                 type: string
               podAnnotations:
                 additionalProperties:
@@ -1126,17 +1122,6 @@ spec:
                       it defaults to Limits if that is explicitly specified, otherwise
                       to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                     type: object
-                type: object
-              template:
-                nullable: true
-                properties:
-                  name:
-                    type: string
-                  namespace:
-                    type: string
-                required:
-                - name
-                - namespace
                 type: object
               tolerations:
                 items:
@@ -1180,13 +1165,12 @@ spec:
                 type: array
             required:
             - chaincodeServerPort
-            - image
             - imagePullPolicy
-            - packageId
             - replicas
             type: object
           status:
-            description: FabricChaincodeStatus defines the observed state of FabricChaincode
+            description: FabricChaincodeTemplateStatus defines the observed state
+              of FabricChaincodeTemplate
             properties:
               conditions:
                 description: Conditions is a set of Condition instances.
@@ -1231,7 +1215,7 @@ spec:
               message:
                 type: string
               status:
-                description: Status of the FabricChaincode
+                description: Status of the FabricCA
                 type: string
             required:
             - conditions
