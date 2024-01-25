@@ -49,6 +49,16 @@ spec:
             - --auto-renew-identity-certificates=true
             - --auto-renew-identity-certificates-delta={{ .Values.certificates.renewal.identity.delta }}
   {{- end }}
+  {{ if  .Values.helm.wait }}
+            - --helm-chart-wait=true
+            - --helm-chart-wait-timeout={{ .Values.helm.waitTimeout }}
+  {{- end }}
+  {{ if .Values.helm.maxHistory}}
+            - --helm-max-history={{ .Values.helm.maxHistory }}
+  {{- end }}
+  {{ if .Values.maxReconciles }}
+            - --max-reconciles={{ .Values.maxReconciles }}
+  {{- end }}
           command:
             - /hlf-operator
           image: {{.Values.image.repository}}:{{.Values.image.tag}}

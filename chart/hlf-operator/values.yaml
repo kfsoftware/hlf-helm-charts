@@ -8,7 +8,14 @@ image:
   repository: quay.io/kfsoftware/hlf-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.10.0-beta5"
+  tag: "v1.10.0-beta7"
+
+maxReconciles: 10
+
+helm:
+  wait: false
+  maxHistory: 10
+  waitTimeout: "5m" # only needed if wait is enabled
 
 certificates:
   renewal:
