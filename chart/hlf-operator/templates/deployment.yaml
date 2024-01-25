@@ -38,22 +38,26 @@ spec:
             - --metrics-addr=127.0.0.1:8080
             - --enable-leader-election
   {{ if .Values.certificates.renewal.peer.enabled }}
-            - --auto-renew-peer-certificates
-            - "true"
-            - --auto-renew-peer-certificates-delta
-            - {{ .Values.certificates.renewal.peer.delta | quote }}
+            - --auto-renew-peer-certificates=true
+            - --auto-renew-peer-certificates-delta={{ .Values.certificates.renewal.peer.delta }}
   {{- end }}
   {{ if .Values.certificates.renewal.orderer.enabled }}
-            - --auto-renew-orderer-certificates
-            - "true"
-            - --auto-renew-orderer-certificates-delta
-            - {{ .Values.certificates.renewal.orderer.delta | quote }}
+            - --auto-renew-orderer-certificates=true
+            - --auto-renew-orderer-certificates-delta={{ .Values.certificates.renewal.orderer.delta }}
   {{- end }}
   {{ if .Values.certificates.renewal.identity.enabled }}
-            - --auto-renew-identity-certificates
-            - "true"
-            - --auto-renew-identity-certificates-delta
-            - {{ .Values.certificates.renewal.identity.delta | quote }}
+            - --auto-renew-identity-certificates=true
+            - --auto-renew-identity-certificates-delta={{ .Values.certificates.renewal.identity.delta }}
+  {{- end }}
+  {{ if  .Values.helm.wait }}
+            - --helm-chart-wait=true
+            - --helm-chart-wait-timeout={{ .Values.helm.waitTimeout }}
+  {{- end }}
+  {{ if .Values.helm.maxHistory}}
+            - --helm-max-history={{ .Values.helm.maxHistory }}
+  {{- end }}
+  {{ if .Values.maxReconciles }}
+            - --max-reconciles={{ .Values.maxReconciles }}
   {{- end }}
           command:
             - /hlf-operator

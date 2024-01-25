@@ -8,7 +8,14 @@ image:
   repository: quay.io/kfsoftware/hlf-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.9.2"
+  tag: "v1.10.0-beta7"
+
+maxReconciles: 10
+
+helm:
+  wait: false
+  maxHistory: 10
+  waitTimeout: "5m" # only needed if wait is enabled
 
 certificates:
   renewal:
@@ -19,7 +26,7 @@ certificates:
       enabled: false
       delta: "720h"
     identity:
-      enabled: false
+      enabled: true
       delta: "720h"
 
 imagePullSecrets: []
@@ -56,18 +63,14 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 1Gi
   requests:
     cpu: 100m
     memory: 128Mi
 
 nodeSelector: {}
 
-tolerations:
-  - key: kubernetes.azure.com/scalesetpriority
-    operator: Equal
-    value: spot
-    effect: NoSchedule
+tolerations: []
 
 affinity: {}
 
