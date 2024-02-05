@@ -8,7 +8,7 @@ image:
   repository: quay.io/kfsoftware/hlf-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.10.0-beta7"
+  tag: "v1.10.0-beta8"
 
 maxReconciles: 10
 
@@ -70,8 +70,11 @@ resources:
 
 nodeSelector: {}
 
-tolerations: []
-
+tolerations:
+  - effect: NoSchedule
+    key: kubernetes.azure.com/scalesetpriority
+    operator: Equal
+    value: spot
 affinity: {}
 
 serviceMonitor:
