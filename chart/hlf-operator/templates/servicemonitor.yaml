@@ -3,7 +3,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "hlf-operator.fullname" . }}--svc-metrics
-  namespace: monitoring
 spec:
   endpoints:
     - interval: 60s
