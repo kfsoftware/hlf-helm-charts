@@ -45,9 +45,60 @@ spec:
           spec:
             description: FabricNetworkConfigSpec defines the desired state of FabricNetworkConfig
             properties:
+              certificateAuthorities:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                  required:
+                  - name
+                  - namespace
+                  type: object
+                nullable: true
+                type: array
               channels:
                 items:
                   type: string
+                type: array
+              externalOrderers:
+                items:
+                  properties:
+                    mspID:
+                      type: string
+                    name:
+                      type: string
+                    tlsCACert:
+                      type: string
+                    url:
+                      type: string
+                  required:
+                  - mspID
+                  - name
+                  - tlsCACert
+                  - url
+                  type: object
+                nullable: true
+                type: array
+              externalPeers:
+                items:
+                  properties:
+                    mspID:
+                      type: string
+                    name:
+                      type: string
+                    tlsCACert:
+                      type: string
+                    url:
+                      type: string
+                  required:
+                  - mspID
+                  - name
+                  - tlsCACert
+                  - url
+                  type: object
+                nullable: true
                 type: array
               identities:
                 description: HLF Identities to be included in the network config
@@ -70,6 +121,26 @@ spec:
                 type: array
               organization:
                 type: string
+              organizationConfig:
+                additionalProperties:
+                  properties:
+                    peers:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                          namespace:
+                            type: string
+                        required:
+                        - name
+                        - namespace
+                        type: object
+                      type: array
+                  required:
+                  - peers
+                  type: object
+                nullable: true
+                type: object
               organizations:
                 items:
                   type: string
