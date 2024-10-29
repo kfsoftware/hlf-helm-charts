@@ -4,16 +4,16 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.4
-  name: fabricoperatorapis.hlf.kungfusoftware.es
+  name: fabricchaincodetemplates.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricOperatorAPI
-    listKind: FabricOperatorAPIList
-    plural: fabricoperatorapis
+    kind: FabricChaincodeTemplate
+    listKind: FabricChaincodeTemplateList
+    plural: fabricchaincodetemplates
     shortNames:
-    - fabricoperatorapi
-    singular: fabricoperatorapi
+    - fabricchaincodetemplate
+    singular: fabricchaincodetemplate
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -475,29 +475,23 @@ spec:
                         x-kubernetes-list-type: atomic
                     type: object
                 type: object
-              auth:
+              annotations:
+                additionalProperties:
+                  type: string
+                default: {}
                 nullable: true
-                properties:
-                  oidcAuthority:
-                    default: ""
-                    type: string
-                  oidcClientId:
-                    default: ""
-                    type: string
-                  oidcIssuer:
-                    type: string
-                  oidcJWKS:
-                    type: string
-                  oidcScope:
-                    default: ""
-                    type: string
-                required:
-                - oidcAuthority
-                - oidcClientId
-                - oidcIssuer
-                - oidcJWKS
-                - oidcScope
                 type: object
+              args:
+                items:
+                  type: string
+                type: array
+              chaincodeServerPort:
+                default: 7052
+                type: integer
+              command:
+                items:
+                  type: string
+                type: array
               env:
                 items:
                   properties:
@@ -565,29 +559,6 @@ spec:
                   type: object
                 nullable: true
                 type: array
-              hlfConfig:
-                properties:
-                  mspID:
-                    type: string
-                  networkConfig:
-                    properties:
-                      key:
-                        type: string
-                      secretName:
-                        type: string
-                    required:
-                    - key
-                    - secretName
-                    type: object
-                  user:
-                    type: string
-                required:
-                - mspID
-                - networkConfig
-                - user
-                type: object
-              image:
-                type: string
               imagePullPolicy:
                 default: IfNotPresent
                 type: string
@@ -601,82 +572,24 @@ spec:
                   x-kubernetes-map-type: atomic
                 nullable: true
                 type: array
-              ingress:
-                properties:
-                  annotations:
-                    additionalProperties:
-                      type: string
-                    default: {}
-                    type: object
-                  className:
-                    type: string
-                  enabled:
-                    default: true
-                    type: boolean
-                  hosts:
-                    items:
-                      properties:
-                        host:
-                          type: string
-                        paths:
-                          items:
-                            properties:
-                              path:
-                                default: /
-                                type: string
-                              pathType:
-                                default: Prefix
-                                type: string
-                            required:
-                            - path
-                            - pathType
-                            type: object
-                          type: array
-                      required:
-                      - host
-                      - paths
-                      type: object
-                    type: array
-                  tls:
-                    items:
-                      properties:
-                        hosts:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: atomic
-                        secretName:
-                          type: string
-                      type: object
-                    type: array
-                required:
-                - annotations
-                - className
-                - enabled
-                - hosts
-                - tls
+              labels:
+                additionalProperties:
+                  type: string
+                default: {}
+                nullable: true
                 type: object
-              istio:
-                properties:
-                  hosts:
-                    items:
-                      type: string
-                    nullable: true
-                    type: array
-                  ingressGateway:
-                    type: string
-                  port:
-                    nullable: true
-                    type: integer
-                required:
-                - ingressGateway
-                type: object
-              logoUrl:
-                default: ""
+              mspID:
                 type: string
+              podAnnotations:
+                additionalProperties:
+                  type: string
+                default: {}
+                nullable: true
+                type: object
               podLabels:
                 additionalProperties:
                   type: string
+                default: {}
                 nullable: true
                 type: object
               replicas:
@@ -715,8 +628,6 @@ spec:
                       x-kubernetes-int-or-string: true
                     type: object
                 type: object
-              tag:
-                type: string
               tolerations:
                 items:
                   properties:
@@ -735,14 +646,9 @@ spec:
                 nullable: true
                 type: array
             required:
-            - hlfConfig
-            - image
+            - chaincodeServerPort
             - imagePullPolicy
-            - ingress
-            - istio
-            - logoUrl
             - replicas
-            - tag
             type: object
           status:
             properties:
