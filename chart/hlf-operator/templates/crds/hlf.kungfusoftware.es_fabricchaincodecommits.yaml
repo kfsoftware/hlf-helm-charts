@@ -4,17 +4,17 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.4
-  name: fabricnetworkconfigs.hlf.kungfusoftware.es
+  name: fabricchaincodecommits.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricNetworkConfig
-    listKind: FabricNetworkConfigList
-    plural: fabricnetworkconfigs
+    kind: FabricChaincodeCommit
+    listKind: FabricChaincodeCommitList
+    plural: fabricchaincodecommits
     shortNames:
-    - networkconfig
-    singular: networkconfig
-  scope: Namespaced
+    - fabricchaincodecommit
+    singular: fabricchaincodecommit
+  scope: Cluster
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.status
@@ -35,62 +35,55 @@ spec:
             type: object
           spec:
             properties:
-              certificateAuthorities:
-                items:
-                  properties:
-                    name:
-                      type: string
-                    namespace:
-                      type: string
-                  required:
-                  - name
-                  - namespace
-                  type: object
-                nullable: true
-                type: array
-              channels:
-                items:
-                  type: string
-                type: array
+              chaincodeName:
+                type: string
+              channelName:
+                type: string
+              endorsementPolicy:
+                type: string
               externalOrderers:
                 items:
                   properties:
-                    mspID:
-                      type: string
-                    name:
-                      type: string
                     tlsCACert:
                       type: string
                     url:
                       type: string
                   required:
-                  - mspID
-                  - name
                   - tlsCACert
                   - url
                   type: object
-                nullable: true
                 type: array
               externalPeers:
                 items:
                   properties:
-                    mspID:
-                      type: string
-                    name:
-                      type: string
                     tlsCACert:
                       type: string
                     url:
                       type: string
                   required:
-                  - mspID
-                  - name
                   - tlsCACert
                   - url
                   type: object
-                nullable: true
                 type: array
-              identities:
+              hlfIdentity:
+                properties:
+                  secretKey:
+                    type: string
+                  secretName:
+                    type: string
+                  secretNamespace:
+                    default: default
+                    type: string
+                required:
+                - secretKey
+                - secretName
+                - secretNamespace
+                type: object
+              initRequired:
+                type: boolean
+              mspID:
+                type: string
+              orderers:
                 items:
                   properties:
                     name:
@@ -102,48 +95,70 @@ spec:
                   - namespace
                   type: object
                 type: array
-              internal:
-                type: boolean
-              namespaces:
+              pdc:
                 items:
-                  type: string
-                type: array
-              organization:
-                type: string
-              organizationConfig:
-                additionalProperties:
                   properties:
-                    peers:
-                      items:
-                        properties:
-                          name:
-                            type: string
-                          namespace:
-                            type: string
-                        required:
-                        - name
-                        - namespace
-                        type: object
-                      type: array
+                    blockToLive:
+                      format: int64
+                      nullable: true
+                      type: integer
+                    endorsementPolicy:
+                      properties:
+                        channelConfigPolicy:
+                          nullable: true
+                          type: string
+                        signaturePolicy:
+                          type: string
+                      type: object
+                    maxPeerCount:
+                      format: int32
+                      type: integer
+                    memberOnlyRead:
+                      type: boolean
+                    memberOnlyWrite:
+                      type: boolean
+                    name:
+                      type: string
+                    policy:
+                      type: string
+                    requiredPeerCount:
+                      format: int32
+                      nullable: true
+                      type: integer
                   required:
-                  - peers
+                  - maxPeerCount
+                  - memberOnlyRead
+                  - memberOnlyWrite
+                  - name
+                  - policy
                   type: object
-                nullable: true
-                type: object
-              organizations:
-                items:
-                  type: string
                 type: array
-              secretName:
+              peers:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                  required:
+                  - name
+                  - namespace
+                  type: object
+                type: array
+              sequence:
+                format: int64
+                type: integer
+              version:
                 type: string
             required:
-            - channels
-            - identities
-            - internal
-            - namespaces
-            - organization
-            - organizations
-            - secretName
+            - chaincodeName
+            - channelName
+            - hlfIdentity
+            - mspID
+            - orderers
+            - peers
+            - sequence
+            - version
             type: object
           status:
             properties:
@@ -169,6 +184,9 @@ spec:
               message:
                 type: string
               status:
+                type: string
+              transactionID:
+                nullable: true
                 type: string
             required:
             - conditions

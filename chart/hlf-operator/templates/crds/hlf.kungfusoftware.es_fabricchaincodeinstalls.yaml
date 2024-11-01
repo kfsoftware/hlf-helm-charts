@@ -4,16 +4,16 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.4
-  name: fabricfollowerchannels.hlf.kungfusoftware.es
+  name: fabricchaincodeinstalls.hlf.kungfusoftware.es
 spec:
   group: hlf.kungfusoftware.es
   names:
-    kind: FabricFollowerChannel
-    listKind: FabricFollowerChannelList
-    plural: fabricfollowerchannels
+    kind: FabricChaincodeInstall
+    listKind: FabricChaincodeInstallList
+    plural: fabricchaincodeinstalls
     shortNames:
-    - fabricfollowerchannel
-    singular: fabricfollowerchannel
+    - fabricchaincodeinstall
+    singular: fabricchaincodeinstall
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,19 +35,31 @@ spec:
             type: object
           spec:
             properties:
-              anchorPeers:
-                items:
-                  properties:
-                    host:
-                      type: string
-                    port:
-                      type: integer
-                  required:
-                  - host
-                  - port
-                  type: object
-                type: array
-              externalPeersToJoin:
+              chaincodePackage:
+                properties:
+                  address:
+                    type: string
+                  dialTimeout:
+                    nullable: true
+                    type: string
+                  name:
+                    type: string
+                  tls:
+                    nullable: true
+                    properties:
+                      required:
+                        type: boolean
+                    required:
+                    - required
+                    type: object
+                  type:
+                    type: string
+                required:
+                - address
+                - name
+                - type
+                type: object
+              externalPeers:
                 items:
                   properties:
                     tlsCACert:
@@ -73,23 +85,9 @@ spec:
                 - secretName
                 - secretNamespace
                 type: object
-              mspId:
+              mspID:
                 type: string
-              name:
-                type: string
-              orderers:
-                items:
-                  properties:
-                    certificate:
-                      type: string
-                    url:
-                      type: string
-                  required:
-                  - certificate
-                  - url
-                  type: object
-                type: array
-              peersToJoin:
+              peers:
                 items:
                   properties:
                     name:
@@ -102,13 +100,11 @@ spec:
                   type: object
                 type: array
             required:
-            - anchorPeers
-            - externalPeersToJoin
+            - chaincodePackage
+            - externalPeers
             - hlfIdentity
-            - mspId
-            - name
-            - orderers
-            - peersToJoin
+            - mspID
+            - peers
             type: object
           status:
             properties:
@@ -131,7 +127,33 @@ spec:
                   - type
                   type: object
                 type: array
+              failedPeers:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    reason:
+                      type: string
+                  required:
+                  - name
+                  - reason
+                  type: object
+                nullable: true
+                type: array
+              installedPeers:
+                items:
+                  properties:
+                    name:
+                      type: string
+                  required:
+                  - name
+                  type: object
+                nullable: true
+                type: array
               message:
+                type: string
+              packageID:
+                nullable: true
                 type: string
               status:
                 type: string
