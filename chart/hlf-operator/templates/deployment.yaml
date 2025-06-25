@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-{{ include "hlf-operator.labels" . | indent 6}}
+    {{- include "hlf-operator.labels" . | nindent 4 }}
   name: {{ include "hlf-operator.fullname" . }}-controller-manager
 spec:
   replicas: 1
   selector:
     matchLabels:
-{{ include "hlf-operator.selectorLabels" . | indent 6}}
+      {{- include "hlf-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-  {{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-{{ include "hlf-operator.selectorLabels" . | indent 8 }}
+        {{- include "hlf-operator.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      {{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
 
       containers:
@@ -65,7 +65,7 @@ spec:
           imagePullPolicy: {{.Values.image.pullPolicy | default "IfNotPresent"}}
           name: manager
           resources:
-      {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
       terminationGracePeriodSeconds: 10
       {{- with .Values.nodeSelector }}
       nodeSelector:
