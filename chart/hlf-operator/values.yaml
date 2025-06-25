@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-maxReconciles: ""
+maxReconciles: 10
 
 image:
   repository: ghcr.io/hyperledger-bevel/bevel-operator-fabric

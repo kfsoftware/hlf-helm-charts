@@ -38,7 +38,7 @@ spec:
             - --metrics-addr=127.0.0.1:8080
             - --enable-leader-election
             {{- if .Values.maxReconciles }}
-            - --max-reconciles={{ .Values.maxReconciles | quote }}
+            - --max-reconciles={{ .Values.maxReconciles }}
             {{- end }}
 
   {{ if .Values.certificates.renewal.peer.enabled }}
