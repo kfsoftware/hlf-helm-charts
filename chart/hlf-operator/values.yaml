@@ -10,7 +10,7 @@ image:
   repository: ghcr.io/hyperledger-bevel/bevel-operator-fabric
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.12.1"
+  tag: "v1.13.0-beta2"
 
 certificates:
   renewal:
@@ -21,7 +21,7 @@ certificates:
       enabled: false
       delta: "720h"
     identity:
-      enabled: false
+      enabled: true
       delta: "720h"
 
 imagePullSecrets: []
