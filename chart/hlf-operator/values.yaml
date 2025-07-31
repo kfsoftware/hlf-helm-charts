@@ -4,11 +4,13 @@
 
 replicaCount: 1
 
+maxReconciles: 10
+
 image:
-  repository: quay.io/kfsoftware/hlf-operator
+  repository: ghcr.io/hyperledger-bevel/bevel-operator-fabric
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.11.0"
+  tag: "v1.12.1"
 
 certificates:
   renewal:
