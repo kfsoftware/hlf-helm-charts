@@ -85,6 +85,18 @@ rules:
       - httproutes/status
       - tcproutes/status
       - tlsroutes/status
+  - apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
   - verbs:
       - get
       - list
@@ -1160,4 +1172,3 @@ subjects:
   - kind: ServiceAccount
     name: default
     namespace: {{.Release.Namespace}}
-
